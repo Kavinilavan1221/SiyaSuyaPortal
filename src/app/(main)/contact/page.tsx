@@ -216,8 +216,8 @@ export default function ContactPage() {
                 {mapImage && (
                     <div className="relative aspect-[21/9] md:aspect-[24/7] w-full rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 bg-card">
                         <img
-                            src={mapImage.imageUrl}
-                            alt={mapImage.description}
+                            src="/cargo-ship.jpg"
+                            alt="Deep blue ocean waters"
                             className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                             data-ai-hint={mapImage.imageHint}
                         />

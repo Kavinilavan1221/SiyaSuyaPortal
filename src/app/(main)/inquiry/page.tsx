@@ -65,7 +65,14 @@ export default function InquiryPage() {
   const handleFormSubmit = async (data: z.infer<typeof InquirySchema>) => {
       setState({ message: 'Submitting...', success: false });
       try {
-          const response = await fetch('http://localhost:5000/api/inquiries', {
+          const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+          
+          let finalMessage = data.message;
+          if (data.productInterests) {
+            finalMessage = `Product Interests: ${data.productInterests}\n\n${finalMessage}`;
+          }
+
+          const response = await fetch(`${apiUrl}/api/inquiries`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -73,15 +80,19 @@ export default function InquiryPage() {
               email: data.email,
               company: data.company,
               country: data.country,
-              message: data.message
+              message: finalMessage
             })
           });
           
-          if (!response.ok) throw new Error('Failed to submit');
+          if (!response.ok) {
+             const errorData = await response.json().catch(() => ({}));
+             throw new Error(errorData.error || 'Failed to submit');
+          }
           
           setState({ message: 'Inquiry submitted successfully! We will contact you soon.', success: true });
-      } catch (error) {
-          setState({ message: 'Failed to submit inquiry', success: false });
+      } catch (error: any) {
+          console.error("Submission error:", error);
+          setState({ message: error.message || 'Failed to submit inquiry. Please check your connection.', success: false });
       }
   };
 

@@ -66,7 +66,7 @@ export default function Home() {
             The Ocean's Finest, <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-white">Delivered Worldwide.</span>
           </h1>
           
-          <p className="mt-6 text-lg md:text-2xl font-light text-slate-300 max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
+          <p className="mt-6 text-lg md:text-2xl font-medium text-black max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
             Siya Suya International brings you sustainably caught, export-grade Sri Lankan seafood of unmatched quality.
           </p>
           
@@ -146,7 +146,7 @@ export default function Home() {
                     <div className="text-sm text-muted-foreground font-medium">Global Markets</div>
                  </div>
               </div>
-              <Button asChild variant="ghost" className="hover:bg-primary/5 group">
+              <Button asChild variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground group">
                 <Link to="/about">
                   Discover Our Journey <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Link>

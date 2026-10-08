@@ -3,61 +3,61 @@
     {
       "id": "hero",
       "description": "A stunning wide shot of a fishing boat on the ocean at sunrise.",
-      "imageUrl": "https://picsum.photos/seed/hero-seafood/1920/1080",
+      "imageUrl": "/hero.jpg",
       "imageHint": "fishing boat sunrise"
     },
     {
       "id": "shrimp-1",
       "description": "Freshly caught shrimp on ice.",
-      "imageUrl": "https://picsum.photos/seed/shrimp1/600/400",
+      "imageUrl": "/shrimp.jpg",
       "imageHint": "fresh shrimp"
     },
     {
       "id": "squid-1",
       "description": "Cleaned and prepared squid ready for export.",
-      "imageUrl": "https://picsum.photos/seed/squid1/600/400",
+      "imageUrl": "/squid.jpg",
       "imageHint": "prepared squid"
     },
     {
       "id": "tuna-1",
       "description": "A large, fresh yellowfin tuna.",
-      "imageUrl": "https://picsum.photos/seed/tuna1/600/400",
+      "imageUrl": "/tuna-1.jpg",
       "imageHint": "yellowfin tuna"
     },
     {
       "id": "crab-1",
       "description": "Live blue swimmer crabs.",
-      "imageUrl": "https://picsum.photos/seed/crab1/600/400",
+      "imageUrl": "/crab.jpg",
       "imageHint": "blue crab"
     },
     {
       "id": "cuttlefish-1",
       "description": "Fresh cuttlefish on display.",
-      "imageUrl": "https://picsum.photos/seed/cuttlefish1/600/400",
+      "imageUrl": "/cuttlefish.jpg",
       "imageHint": "fresh cuttlefish"
     },
     {
       "id": "tuna-loin",
       "description": "Perfectly cut tuna loins.",
-      "imageUrl": "https://picsum.photos/seed/tunaloin/600/400",
+      "imageUrl": "/tuna.jpg",
       "imageHint": "tuna loin"
     },
     {
       "id": "factory-1",
       "description": "A modern and clean seafood processing factory floor.",
-      "imageUrl": "https://picsum.photos/seed/factory1/600/400",
+      "imageUrl": "/cargo-ship.jpg",
       "imageHint": "food factory"
     },
     {
       "id": "factory-2",
       "description": "Workers in protective gear processing seafood.",
-      "imageUrl": "https://picsum.photos/seed/factory2/600/400",
+      "imageUrl": "/factory-worker.jpg",
       "imageHint": "factory workers"
     },
     {
       "id": "contact-map",
       "description": "A map showing the location of the company.",
-      "imageUrl": "https://picsum.photos/seed/map/1200/400",
+      "imageUrl": "/cargo-ship.jpg",
       "imageHint": "city map"
     }
   ]
