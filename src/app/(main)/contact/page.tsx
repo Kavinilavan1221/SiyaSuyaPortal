@@ -12,10 +12,10 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent } from '@/components/ui/card';
-import { submitContactForm, type FormState } from '@/lib/actions';
 import { ContactSchema } from '@/lib/definitions';
 import { placeholderImages } from '@/lib/placeholder-data';
 
+const COMPANY_EMAIL = import.meta.env.VITE_COMPANY_EMAIL || 'siyani.2111@gmail.com';
 const mapImage = placeholderImages.find(p => p.id === 'contact-map');
 
 export default function ContactPage() {
@@ -51,15 +51,36 @@ export default function ContactPage() {
     }, [state, toast, form]);
 
     const handleFormSubmit = async (data: z.infer<typeof ContactSchema>) => {
-        setState({ message: 'Opening email client...', success: false });
+        setState({ message: 'Sending your message...', success: false });
         try {
-            const subject = encodeURIComponent(data.subject || 'New message from SiyaSuyaPortal');
-            const body = encodeURIComponent(`Name: ${data.name}\nEmail: ${data.email}\n\nMessage:\n${data.message}`);
-            window.location.href = `mailto:kavin200212@gmail.com?subject=${subject}&body=${body}`;
-            
-            setState({ message: 'Email client opened successfully!', success: true });
-        } catch (error) {
-            setState({ message: 'Failed to open email client', success: false });
+            const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+            const response = await fetch(`${apiUrl}/api/contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: data.name,
+                    email: data.email,
+                    subject: data.subject || 'General inquiry',
+                    message: data.message,
+                }),
+            });
+
+            const errorData = await response.json().catch(() => ({}));
+
+            if (!response.ok) {
+                throw new Error(errorData.error || 'Failed to send message.');
+            }
+
+            setState({
+                message: `Thank you! Your message has been sent to ${COMPANY_EMAIL}.`,
+                success: true,
+            });
+        } catch (error: any) {
+            console.error('Contact form submission error:', error);
+            setState({
+                message: error.message || 'Failed to send your message. Please try again later.',
+                success: false,
+            });
         }
     };
 
@@ -119,8 +140,8 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-xl mb-2">Email Support</h3>
-                  <a href="mailto:info@siyasuya.com" className="text-muted-foreground hover:text-primary transition-colors block text-lg">
-                    info@siyasuya.com
+                  <a href={`mailto:${COMPANY_EMAIL}`} className="text-muted-foreground hover:text-primary transition-colors block text-lg">
+                    {COMPANY_EMAIL}
                   </a>
                 </div>
               </div>

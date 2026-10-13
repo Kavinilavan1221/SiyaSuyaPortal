@@ -18,8 +18,10 @@ mongoose.connect(process.env.MONGODB_URI)
 // Routes
 const productRoutes = require('./routes/products');
 const inquiryRoutes = require('./routes/inquiries');
+const contactRoutes = require('./routes/contact');
 app.use('/api/products', productRoutes);
 app.use('/api/inquiries', inquiryRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Auth Routes
 app.post('/api/auth/register', async (req, res) => {
