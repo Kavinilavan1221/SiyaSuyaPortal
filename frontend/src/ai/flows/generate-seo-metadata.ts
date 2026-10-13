@@ -24,7 +24,7 @@ const GenerateSeoMetadataOutputSchema = z.object({
   socialPreviewImage: z
     .string()
     .describe(
-      'A data URI containing a Base64 encoded image that serves as the social preview image for the product. Expected format: \'data:<mimetype>;base64,<encoded_data>\'.' and should be of type image/png.
+      "A data URI containing a Base64 encoded image that serves as the social preview image for the product. Expected format: 'data:<mimetype>;base64,<encoded_data>' and should be of type image/png."
     ),
 });
 export type GenerateSeoMetadataOutput = z.infer<typeof GenerateSeoMetadataOutputSchema>;

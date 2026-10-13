@@ -75,9 +75,9 @@ The platform consists of a modern, glassmorphic frontend built with React (Vite)
 
 ### 2. Frontend Setup
 
-1. Open a new terminal and navigate to the project root:
+1. Open a new terminal and navigate to the frontend folder:
    ```bash
-   cd SiyaSuyaPortal-main
+   cd frontend
    ```
 2. Install dependencies:
    ```bash

@@ -1,9 +1,8 @@
-import type { Metadata } from 'next';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from "@/components/ui/toaster"
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'Siya Suya International - Delivering Ocean Freshness Worldwide',
   description: 'Leading Sri Lankan seafood exporter of Shrimp, Squid, Cuttlefish, Tuna, and Crab to Europe, Japan, and the Middle East. Committed to quality, freshness, and trust.',
 };

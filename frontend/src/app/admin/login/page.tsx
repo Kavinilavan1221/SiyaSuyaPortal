@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -11,6 +11,13 @@ export default function AdminLogin() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  // Always show fresh login page without auto-redirecting
+  useEffect(() => {
+    localStorage.removeItem('adminToken');
+    localStorage.removeItem('userName');
+    localStorage.removeItem('userRole');
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,15 +33,16 @@ export default function AdminLogin() {
       const data = await res.json();
       
       if (!res.ok) throw new Error(data.error || 'Login failed');
-      
+
       localStorage.setItem('adminToken', data.token);
       localStorage.setItem('userName', data.user.name);
       localStorage.setItem('userRole', data.user.role);
-      
+
+      // Only admin credentials can open the Admin Dashboard; customers go to main page
       if (data.user.role === 'admin') {
         navigate('/admin/dashboard');
       } else {
-        navigate('/');
+        navigate('/home');
       }
     } catch (err: any) {
       setError(err.message);
@@ -55,16 +63,16 @@ export default function AdminLogin() {
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary bg-white dark:bg-slate-900 px-6 py-3 rounded-full shadow-sm border border-slate-200 dark:border-slate-800">
              <Fish className="h-6 w-6" />
-             <span className="font-headline text-xl font-bold tracking-wide">Siya Suya Admin</span>
+             <span className="font-headline text-xl font-bold tracking-wide">Siya Suya</span>
           </div>
         </div>
 
         <Card className="border-0 shadow-2xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl overflow-hidden">
           <div className="h-1 w-full bg-gradient-to-r from-primary via-accent to-primary" />
           <CardHeader className="space-y-2 p-8 pb-4">
-            <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Welcome Back to Our Company</CardTitle>
             <CardDescription className="text-center text-md">
-              Enter your credentials to access the dashboard
+              Enter your credentials to continue
             </CardDescription>
           </CardHeader>
           <CardContent className="p-8 pt-4 space-y-6">

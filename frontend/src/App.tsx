@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 // Main Site
 import MainLayout from './app/(main)/layout';
@@ -21,9 +21,13 @@ function App() {
   return (
     <Router>
       <Routes>
+        {/* Entry Point: Directly open the Login page on root / */}
+        <Route path="/" element={<AdminLogin />} />
+        <Route path="/login" element={<AdminLogin />} />
+
         {/* Main Site Routes */}
         <Route element={<MainLayout />}>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/home" element={<HomePage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -35,14 +39,16 @@ function App() {
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
 
-        {/* Admin Dashboard Routes */}
+        {/* Protected Admin Dashboard Routes */}
         <Route path="/admin" element={<AdminLayout />}>
-          {/* Default admin route to dashboard */}
-          <Route index element={<AdminDashboard />} />
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="inquiries" element={<AdminInquiries />} />
         </Route>
+
+        {/* Fallback route */}
+        <Route path="*" element={<Navigate to="/admin/login" replace />} />
       </Routes>
     </Router>
   );

@@ -1,6 +1,6 @@
 'use client';
 
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, Navigate } from 'react-router-dom';
 import { 
   SidebarProvider, 
   Sidebar, 
@@ -31,6 +31,17 @@ const adminNavItems = [
 export default function AdminLayout() {
   const location = useLocation();
   const pathname = location.pathname;
+
+  const token = localStorage.getItem('adminToken');
+  const userRole = localStorage.getItem('userRole');
+
+  // Route Guard: Deny non-admin users or unauthenticated visitors
+  if (!token || userRole !== 'admin') {
+    if (token && userRole === 'customer') {
+      return <Navigate to="/home" replace />;
+    }
+    return <Navigate to="/admin/login" replace state={{ from: location }} />;
+  }
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -70,7 +81,7 @@ export default function AdminLayout() {
           <SidebarHeader>
              <SidebarMenu>
               <SidebarMenuItem>
-                <Link to="/">
+                <Link to="/home">
                     <SidebarMenuButton tooltip={{ children: 'Back to Site' }}>
                       <Home />
                       <span>Back to Site</span>

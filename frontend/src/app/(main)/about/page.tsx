@@ -1,12 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Globe, History, Target, ShieldCheck } from 'lucide-react';
 import { certifications, companyProfile, placeholderImages } from '@/lib/placeholder-data';
-import type { Metadata } from 'next';
 
-export const metadata: Metadata = {
-    title: 'About Siya Suya International',
-    description: 'Learn about our company history, mission, and our commitment to providing the highest quality Sri Lankan seafood to the world.',
-};
 
 const factoryImage1 = placeholderImages.find(p => p.id === 'factory-1');
 const factoryImage2 = placeholderImages.find(p => p.id === 'factory-2');

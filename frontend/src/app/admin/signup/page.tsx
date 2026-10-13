@@ -28,14 +28,16 @@ export default function AdminSignup() {
       
       if (!res.ok) throw new Error(data.error || 'Signup failed');
       
-      localStorage.setItem('adminToken', data.token);
-      localStorage.setItem('userName', data.user.name);
-      localStorage.setItem('userRole', data.user.role);
-      
       if (data.user.role === 'admin') {
+        localStorage.setItem('adminToken', data.token);
+        localStorage.setItem('userName', data.user.name);
+        localStorage.setItem('userRole', data.user.role);
         navigate('/admin/dashboard');
       } else {
-        navigate('/');
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userRole');
+        navigate('/admin/login');
       }
     } catch (err: any) {
       setError(err.message);
@@ -56,7 +58,7 @@ export default function AdminSignup() {
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary bg-white dark:bg-slate-900 px-6 py-3 rounded-full shadow-sm border border-slate-200 dark:border-slate-800">
              <Fish className="h-6 w-6" />
-             <span className="font-headline text-xl font-bold tracking-wide">Siya Suya Admin</span>
+             <span className="font-headline text-xl font-bold tracking-wide">Siya Suya</span>
           </div>
         </div>
 

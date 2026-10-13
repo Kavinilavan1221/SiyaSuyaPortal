@@ -48,7 +48,7 @@ export function ProductForm({ product }: ProductFormProps) {
   const [isGeneratingSeo, setIsGeneratingSeo] = useState(false);
 
   const form = useForm<ProductFormValues>({
-    resolver: zodResolver(ProductFormSchema),
+    resolver: zodResolver(ProductFormSchema) as any,
     defaultValues: product || {
       name: '',
       category: 'Shrimp',

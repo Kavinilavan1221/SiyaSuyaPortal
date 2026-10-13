@@ -33,7 +33,7 @@ export default function AdminForgotPassword() {
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary bg-white dark:bg-slate-900 px-6 py-3 rounded-full shadow-sm border border-slate-200 dark:border-slate-800">
              <Fish className="h-6 w-6" />
-             <span className="font-headline text-xl font-bold tracking-wide">Siya Suya Admin</span>
+             <span className="font-headline text-xl font-bold tracking-wide">Siya Suya</span>
           </div>
         </div>
 
