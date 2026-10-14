@@ -11,6 +11,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 const navLinks = [
   { href: '/home', label: 'Home' },
   { href: '/about', label: 'About Us' },
+  { href: '/our-team', label: 'Our Team' },
   { href: '/products', label: 'Products' },
   { href: '/contact', label: 'Contact' },
 ];
@@ -36,7 +37,7 @@ export default function MainNav() {
     localStorage.removeItem('userRole');
     setUserName(null);
     setUserRole(null);
-    navigate('/admin/login');
+    navigate('/login');
   };
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
@@ -82,7 +83,7 @@ export default function MainNav() {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <NavLink href="/admin/login" label="Login" />
+            <NavLink href="/login" label="Login" />
           )}
 
           <Button asChild className="bg-accent hover:bg-accent/90 text-accent-foreground">
@@ -120,7 +121,7 @@ export default function MainNav() {
                 </Button>
               </div>
             ) : (
-              <NavLink href="/admin/login" label="Login" />
+              <NavLink href="/login" label="Login" />
             )}
 
             <Button asChild className="w-full bg-accent hover:bg-accent/90 text-accent-foreground">

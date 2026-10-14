@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Globe, History, Target, ShieldCheck } from 'lucide-react';
+import { Globe, History, Plane, Ship, Target, ShieldCheck } from 'lucide-react';
 import { certifications, companyProfile, placeholderImages } from '@/lib/placeholder-data';
 
 
@@ -16,7 +16,7 @@ export default function AboutPage() {
             About Siya Suya International
           </h1>
           <p className="mt-4 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-            Discover our story, our values, and our unwavering commitment to delivering ocean freshness worldwide.
+            Discover our story, our values, and how we deliver fresh seafood by air and frozen seafood by sea to markets worldwide.
           </p>
         </div>
       </section>
@@ -99,6 +99,49 @@ export default function AboutPage() {
                 />
               )}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Shipping Options Section */}
+      <section className="py-16 md:py-20">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-primary">
+              Worldwide cold-chain delivery
+            </p>
+            <h2 className="font-headline text-3xl font-bold text-foreground md:text-4xl">
+              The right journey for every catch
+            </h2>
+            <p className="mt-4 text-muted-foreground">
+              Choose the option that best fits your product and delivery needs.
+            </p>
+          </div>
+
+          <div className="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
+            <Card className="group border-border/70 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
+              <CardHeader className="flex-row items-center gap-4 space-y-0">
+                <div className="rounded-xl bg-primary/10 p-3 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <Plane className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <CardTitle className="font-headline text-2xl">Fresh Seafood by Air</CardTitle>
+              </CardHeader>
+              <CardContent className="pl-[5.25rem] text-muted-foreground">
+                Fresh seafood is transported by air for fast delivery and careful handling on its journey to international markets.
+              </CardContent>
+            </Card>
+
+            <Card className="group border-border/70 bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg">
+              <CardHeader className="flex-row items-center gap-4 space-y-0">
+                <div className="rounded-xl bg-primary/10 p-3 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <Ship className="h-7 w-7" aria-hidden="true" />
+                </div>
+                <CardTitle className="font-headline text-2xl">Frozen Seafood by Sea</CardTitle>
+              </CardHeader>
+              <CardContent className="pl-[5.25rem] text-muted-foreground">
+                Frozen seafood is shipped by sea with cold-chain handling to help maintain product quality throughout transit.
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>

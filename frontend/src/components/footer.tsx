@@ -4,6 +4,7 @@ import Logo from './logo';
 
 const navLinks = [
   { href: '/about', label: 'About Us' },
+  { href: '/our-team', label: 'Our Team' },
   { href: '/products', label: 'Products' },
   { href: '/inquiry', label: 'Inquiry' },
   { href: '/contact', label: 'Contact' },
@@ -55,22 +56,29 @@ export default function Footer() {
                 <div className="bg-white/5 p-2 rounded-lg group-hover:bg-accent/20 transition-colors">
                   <MapPin className="h-5 w-5 text-accent" />
                 </div>
-                <span className="text-sm text-slate-400 mt-1">123 Seafood Lane, Colombo, Sri Lanka</span>
+                <span className="text-sm text-slate-400 mt-1">
+                  Siya Suya International Seafood Export, Prison Road, Dalupotha, Negombo, Sri Lanka
+                </span>
               </li>
-              <li className="flex items-center gap-4 group">
+              <li className="flex items-start gap-4 group">
                 <div className="bg-white/5 p-2 rounded-lg group-hover:bg-accent/20 transition-colors">
                   <Phone className="h-5 w-5 text-accent" />
                 </div>
-                <a href="tel:+94112345678" className="text-sm text-slate-400 hover:text-white transition-colors">
-                  +94 11 234 5678
-                </a>
+                <div className="flex flex-col gap-1 text-sm text-slate-400">
+                  <a href="tel:+94772192742" className="hover:text-white transition-colors">
+                    +94 77 219 2742 <span className="ml-1 text-xs opacity-80">(English)</span>
+                  </a>
+                  <a href="tel:+94773650058" className="hover:text-white transition-colors">
+                    +94 77 365 0058 <span className="ml-1 text-xs opacity-80">(Tamil)</span>
+                  </a>
+                </div>
               </li>
-              <li className="flex items-center gap-4 group">
+              <li className="flex items-start gap-4 group">
                 <div className="bg-white/5 p-2 rounded-lg group-hover:bg-accent/20 transition-colors">
                   <Mail className="h-5 w-5 text-accent" />
                 </div>
-                <a href="mailto:info@siyasuya.com" className="text-sm text-slate-400 hover:text-white transition-colors">
-                  info@siyasuya.com
+                <a href="mailto:siyasuyainternationalpvt@gmail.com" className="text-sm text-slate-400 hover:text-white transition-colors break-all">
+                  siyasuyainternationalpvt@gmail.com
                 </a>
               </li>
             </ul>
@@ -96,8 +104,8 @@ export default function Footer() {
         <div className="container mx-auto px-6 py-5 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
           <div>© {new Date().getFullYear()} Siya Suya International. All Rights Reserved.</div>
           <div className="flex space-x-4 mt-4 md:mt-0">
-             <Link to="#" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
-             <Link to="#" className="hover:text-slate-300 transition-colors">Terms of Service</Link>
+             <Link to="/privacy-policy" className="hover:text-slate-300 transition-colors">Privacy Policy</Link>
+             <Link to="/terms-and-conditions" className="hover:text-slate-300 transition-colors">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>

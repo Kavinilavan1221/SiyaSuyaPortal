@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Fish } from 'lucide-react';
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -62,7 +61,7 @@ export default function AdminLogin() {
       <div className="relative z-10 w-full max-w-md">
         <div className="flex justify-center mb-8">
           <div className="flex items-center gap-2 text-primary bg-white dark:bg-slate-900 px-6 py-3 rounded-full shadow-sm border border-slate-200 dark:border-slate-800">
-             <Fish className="h-6 w-6" />
+             <img src="/logo.jpeg" alt="Siya Suya International logo" className="h-10 w-10 rounded-full object-cover" />
              <span className="font-headline text-xl font-bold tracking-wide">Siya Suya</span>
           </div>
         </div>
@@ -80,14 +79,14 @@ export default function AdminLogin() {
               {error && <div className="text-destructive text-sm font-semibold bg-destructive/10 p-3 rounded-lg">{error}</div>}
               <div className="space-y-2">
                 <label className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">Email Address</label>
-                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="admin@siyasuya.com" className="h-12 bg-slate-100 dark:bg-slate-800 border-0 focus-visible:ring-2 focus-visible:ring-primary rounded-xl px-4" />
+                <Input type="email" value={email} onChange={e => setEmail(e.target.value)} required placeholder="Your email" autoComplete="email" className="h-12 bg-slate-100 dark:bg-slate-800 border-0 focus-visible:ring-2 focus-visible:ring-primary rounded-xl px-4" />
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <label className="text-sm font-semibold tracking-wide text-muted-foreground uppercase">Password</label>
-                  <Link to="/admin/forgot-password" className="text-sm text-primary hover:underline font-medium">Forgot password?</Link>
+                  <Link to="/forgot-password" className="text-sm text-primary hover:underline font-medium">Forgot password?</Link>
                 </div>
-                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} required placeholder="••••••••" className="h-12 bg-slate-100 dark:bg-slate-800 border-0 focus-visible:ring-2 focus-visible:ring-primary rounded-xl px-4" />
+                <Input type="password" value={password} onChange={e => setPassword(e.target.value)} required placeholder="Your password" autoComplete="current-password" className="h-12 bg-slate-100 dark:bg-slate-800 border-0 focus-visible:ring-2 focus-visible:ring-primary rounded-xl px-4" />
               </div>
               <Button type="submit" disabled={loading} className="w-full h-12 text-md font-bold rounded-xl bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg shadow-primary/25 transition-all hover:-translate-y-0.5 mt-2">
                 {loading ? 'Signing In...' : 'Sign In'}
@@ -96,7 +95,7 @@ export default function AdminLogin() {
           </CardContent>
           <CardFooter className="p-8 py-6 justify-center text-sm text-muted-foreground border-t border-slate-100 dark:border-slate-800/50 bg-slate-50/50 dark:bg-slate-900/50 mt-4">
             Don't have an account? 
-            <Link to="/admin/signup" className="text-primary hover:underline font-bold ml-1">Sign up</Link>
+            <Link to="/signup" className="text-primary hover:underline font-bold ml-1">Sign up</Link>
           </CardFooter>
         </Card>
       </div>

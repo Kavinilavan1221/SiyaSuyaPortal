@@ -1,13 +1,14 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ArrowRight, ShieldCheck, Anchor, Fish, Ship } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import { featuredProducts, placeholderImages } from '@/lib/placeholder-data';
 import { cn } from '@/lib/utils';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const aboutImage = placeholderImages.find(p => p.id === 'factory-1');
 
@@ -20,25 +21,65 @@ const heroSlides = [
 const premiumFeatures = [
   { icon: Anchor, title: 'Sustainable Catch', desc: 'Ethically sourced from pristine deep-sea waters.' },
   { icon: Fish, title: 'Premium Quality', desc: 'Hand-selected grades ensuring perfection in every bite.' },
-  { icon: Ship, title: 'Global Export', desc: 'Swift, cold-chain delivery anywhere in the world.' },
+  { icon: Ship, title: 'Global Export', desc: 'Frozen seafood by sea freight and fresh seafood by air freight.' },
 ];
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [mounted, setMounted] = useState(false);
+  const [showLoginPrompt, setShowLoginPrompt] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMounted(true);
+    if (!localStorage.getItem('loginPromptSeen')) {
+      setShowLoginPrompt(true);
+    }
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
     }, 6000); 
     return () => clearInterval(timer);
   }, []);
 
+  const dismissLoginPrompt = () => {
+    localStorage.setItem('loginPromptSeen', 'true');
+    setShowLoginPrompt(false);
+  };
+
   return (
     <div className="flex flex-col bg-background selection:bg-primary/30">
+      <Dialog
+        open={showLoginPrompt}
+        onOpenChange={(open) => {
+          if (!open) dismissLoginPrompt();
+          else setShowLoginPrompt(true);
+        }}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Welcome to Siya Suya</DialogTitle>
+            <DialogDescription>
+              Would you like to sign in, or continue browsing as a guest? Signing in is optional.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={dismissLoginPrompt}>
+              Continue as guest
+            </Button>
+            <Button
+              onClick={() => {
+                dismissLoginPrompt();
+                navigate('/login');
+              }}
+            >
+              Sign in
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Hero Section */}
-      <section className="relative h-[80vh] w-full flex items-center justify-center text-center text-white overflow-hidden">
+      <section className="relative h-[90vh] w-full flex items-center justify-center text-center text-white overflow-hidden">
         {heroSlides.map((slide, index) => (
           <img
             key={slide}
@@ -67,7 +108,7 @@ export default function Home() {
           </h1>
           
           <p className="mt-6 text-lg md:text-2xl font-medium text-black max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-700 delay-500 fill-mode-both">
-            Siya Suya International brings you sustainably caught, export-grade Sri Lankan seafood of unmatched quality.
+            Siya Suya International brings you premium Sri Lankan seafood, with frozen products shipped by sea and fresh products flown to destinations worldwide.
           </p>
           
           <div className="mt-10 flex flex-col sm:flex-row gap-4 animate-in fade-in slide-in-from-bottom-8 duration-700 delay-700 fill-mode-both">
@@ -96,16 +137,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Premium Features Banner */}
-      <section className="relative z-20 -mt-16 container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {premiumFeatures.map((feature, idx) => (
-            <div key={idx} className="bg-card/80 backdrop-blur-xl border border-white/10 dark:border-white/5 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group">
-              <feature.icon className="h-10 w-10 text-primary mb-4 group-hover:scale-110 transition-transform duration-300" />
-              <h3 className="font-semibold text-lg">{feature.title}</h3>
-              <p className="text-muted-foreground text-sm mt-2">{feature.desc}</p>
-            </div>
-          ))}
+      {/* Premium Features */}
+      <section className="relative overflow-hidden border-b border-border/60 bg-muted/30 py-16 md:py-20">
+        <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[min(80%,48rem)] -translate-x-1/2 rounded-full bg-primary/5 blur-3xl" />
+        <div className="container relative mx-auto px-4">
+          <div className="mx-auto mb-10 max-w-2xl text-center">
+            <p className="mb-3 text-xs font-bold uppercase tracking-[0.24em] text-primary">
+              The Siya Suya difference
+            </p>
+            <h2 className="font-headline text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+              Quality you can trust, from ocean to you
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
+            {premiumFeatures.map((feature) => (
+              <div
+                key={feature.title}
+                className="group flex items-start gap-5 rounded-2xl border border-border/70 bg-card p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 md:p-7"
+              >
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
+                  <feature.icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <div className="pt-0.5">
+                  <h3 className="font-semibold text-lg text-foreground">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -196,7 +256,7 @@ export default function Home() {
               <ShieldCheck className="w-16 h-16 mx-auto text-accent mb-6" />
               <CardTitle className="font-headline text-4xl md:text-5xl">Ready to Source the Finest?</CardTitle>
               <CardDescription className="text-xl mt-4 text-muted-foreground">
-                Connect with our dedicated export team today for tailored quotations and global logistics solutions.
+                Connect with our export team for tailored quotations, with frozen seafood shipped by sea and fresh seafood transported by air.
               </CardDescription>
             </CardHeader>
             <CardContent className="pb-12">

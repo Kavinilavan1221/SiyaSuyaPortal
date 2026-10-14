@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const nodemailer = require('nodemailer');
+const ContactMessage = require('../models/ContactMessage');
+const requireAdmin = require('../middleware/requireAdmin');
 
 const COMPANY_EMAIL = process.env.COMPANY_EMAIL || 'siyani.2111@gmail.com';
 
@@ -26,84 +28,113 @@ function createSmtpTransporter() {
   });
 }
 
+router.get('/messages', requireAdmin, async (req, res) => {
+  try {
+    const messages = await ContactMessage.find().sort({ createdAt: -1 });
+    res.json(messages);
+  } catch (error) {
+    console.error('Error fetching contact messages:', error);
+    res.status(500).json({ error: 'Unable to load contact messages.' });
+  }
+});
+
+router.put('/messages/:id', requireAdmin, async (req, res) => {
+  const { status } = req.body || {};
+  if (!['New', 'Replied'].includes(status)) {
+    return res.status(400).json({ error: 'Status must be New or Replied.' });
+  }
+
+  try {
+    const message = await ContactMessage.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true, runValidators: true }
+    );
+    if (!message) {
+      return res.status(404).json({ error: 'Contact message not found.' });
+    }
+    res.json(message);
+  } catch (error) {
+    console.error('Error updating contact message:', error);
+    res.status(400).json({ error: 'Unable to update contact message.' });
+  }
+});
+
+router.delete('/messages/:id', requireAdmin, async (req, res) => {
+  try {
+    const message = await ContactMessage.findByIdAndDelete(req.params.id);
+    if (!message) {
+      return res.status(404).json({ error: 'Contact message not found.' });
+    }
+    res.json({ message: 'Contact message deleted.' });
+  } catch (error) {
+    console.error('Error deleting contact message:', error);
+    res.status(400).json({ error: 'Unable to delete contact message.' });
+  }
+});
+
 router.post('/', async (req, res) => {
   const { name, email, subject, message } = req.body || {};
 
-  if (!name || !email || !subject || !message) {
+  if (
+    typeof name !== 'string' ||
+    typeof email !== 'string' ||
+    typeof subject !== 'string' ||
+    typeof message !== 'string' ||
+    name.trim().length < 2 ||
+    name.trim().length > 120 ||
+    !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim()) ||
+    subject.trim().length < 5 ||
+    subject.trim().length > 200 ||
+    message.trim().length < 10 ||
+    message.trim().length > 5000
+  ) {
     return res.status(400).json({ error: 'Name, email, subject, and message are required.' });
   }
 
-  let transporter;
   try {
-    transporter = createSmtpTransporter();
-  } catch (error) {
-    console.error('Contact email configuration error:', error);
-    return res.status(503).json({ error: 'Contact email notifications are not configured.' });
-  }
-
-  try {
-    await transporter.sendMail({
-      from: process.env.SMTP_USER,
-      to: COMPANY_EMAIL,
-      replyTo: email,
-      subject: `New Contact Message from ${name} | Siya Suya International`,
-      text: [
-        'New website contact message received.',
-        '',
-        'Contact details:',
-        `Name: ${name}`,
-        `Email: ${email}`,
-        `Subject: ${subject}`,
-        `Submitted: ${new Date().toLocaleString()}`,
-        '',
-        'Message:',
-        message
-      ].join('\n'),
-      html: `
-        <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #1f2937; background-color: #f8fafc; padding: 32px;">
-          <div style="max-width: 640px; margin: 0 auto; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
-            <div style="background: linear-gradient(135deg, #0f172a, #1e293b); color: #ffffff; padding: 24px 32px;">
-              <h2 style="margin: 0; font-size: 24px;">New Contact Message</h2>
-              <p style="margin: 10px 0 0; font-size: 14px; opacity: 0.9;">Siya Suya International</p>
-            </div>
-            <div style="padding: 28px 32px 16px;">
-              <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-                <tr>
-                  <td style="padding: 8px 0; font-weight: 700; width: 140px; color: #374151;">Name</td>
-                  <td style="padding: 8px 0; color: #111827;">${name}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; font-weight: 700; color: #374151;">Email</td>
-                  <td style="padding: 8px 0; color: #111827;">${email}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; font-weight: 700; color: #374151;">Subject</td>
-                  <td style="padding: 8px 0; color: #111827;">${subject}</td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; font-weight: 700; color: #374151;">Submitted</td>
-                  <td style="padding: 8px 0; color: #111827;">${new Date().toLocaleString()}</td>
-                </tr>
-              </table>
-              <div style="margin-top: 24px;">
-                <p style="margin: 0 0 10px; font-weight: 700; color: #374151;">Message</p>
-                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; color: #1f2937; white-space: pre-wrap;">${message}</div>
-              </div>
-            </div>
-            <div style="padding: 0 32px 28px;">
-              <p style="margin: 0; font-size: 13px; color: #6b7280;">Please reply to this customer using the email address above.</p>
-            </div>
-          </div>
-        </div>
-      `
+    const contactMessage = await ContactMessage.create({
+      name: name.trim(),
+      email: email.trim(),
+      subject: subject.trim(),
+      message: message.trim()
     });
 
-    res.status(200).json({ message: 'Contact message sent successfully.' });
+    try {
+      const transporter = createSmtpTransporter();
+      await transporter.sendMail({
+        from: process.env.SMTP_USER,
+        to: COMPANY_EMAIL,
+        replyTo: contactMessage.email,
+        subject: `New Contact Message from ${contactMessage.name} | Siya Suya International`,
+        text: [
+          'New website contact message received.',
+          '',
+          'Contact details:',
+          `Name: ${contactMessage.name}`,
+          `Email: ${contactMessage.email}`,
+          `Subject: ${contactMessage.subject}`,
+          `Submitted: ${new Date(contactMessage.createdAt).toLocaleString()}`,
+          '',
+          'Message:',
+          contactMessage.message
+        ].join('\n')
+      });
+
+      return res.status(201).json({
+        message: 'Your message has been received. Our team has been notified.',
+        emailSent: true
+      });
+    } catch (error) {
+      console.error('Contact message saved, but email notification failed:', error);
+      return res.status(201).json({
+        message: 'Your message was received and saved, but the email notification could not be sent. Our team can view it in the portal.',
+        emailSent: false
+      });
+    }
   } catch (error) {
-    console.error('Error sending contact notification email:', error);
-    return res.status(502).json({
-      error: 'Your message could not be delivered. Please try again later.'
-    });
+    console.error('Error saving contact message:', error);
+    return res.status(500).json({ error: 'Your message could not be saved. Please try again later.' });
   }
 });
 

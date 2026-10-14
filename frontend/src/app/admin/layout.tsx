@@ -16,9 +16,9 @@ import {
   LayoutDashboard, 
   Package, 
   FileText, 
+  Mail,
   LogOut,
-  Home,
-  Fish
+  Home
 } from 'lucide-react';
 import Logo from '@/components/logo';
 
@@ -26,6 +26,7 @@ const adminNavItems = [
   { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '/admin/products', label: 'Products', icon: Package },
   { href: '/admin/inquiries', label: 'Inquiries', icon: FileText },
+  { href: '/admin/messages', label: 'Messages', icon: Mail },
 ];
 
 export default function AdminLayout() {
@@ -40,14 +41,14 @@ export default function AdminLayout() {
     if (token && userRole === 'customer') {
       return <Navigate to="/home" replace />;
     }
-    return <Navigate to="/admin/login" replace state={{ from: location }} />;
+    return <Navigate to="/login" replace state={{ from: location }} />;
   }
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
     localStorage.removeItem('userName');
     localStorage.removeItem('userRole');
-    window.location.href = '/admin/login';
+    window.location.href = '/login';
   };
 
   return (
@@ -55,7 +56,7 @@ export default function AdminLayout() {
         <Sidebar>
           <SidebarHeader className="py-6 px-4">
              <div className="flex items-center gap-2 text-primary">
-               <Fish className="h-6 w-6" />
+               <img src="/logo.jpeg" alt="Siya Suya International logo" className="h-9 w-9 shrink-0 rounded-full object-cover" />
                <span className="font-headline text-lg font-bold tracking-wide">Siya Suya Admin</span>
              </div>
           </SidebarHeader>

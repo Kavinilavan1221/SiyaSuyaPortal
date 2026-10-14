@@ -114,5 +114,5 @@ export const inquiries: Inquiry[] = [
 export const companyProfile = {
     history: 'Founded in 2005, Siya Suya International started with a small processing plant and a vision to share the bounty of Sri Lankan waters with the world. Over the past two decades, we have grown into a leading exporter, trusted by clients in Europe, Japan, and the Middle East for our unwavering commitment to quality and freshness.',
     mission: 'Our mission is to be the most trusted source of premium, sustainably-sourced Sri Lankan seafood for the global market. We achieve this through stringent quality control, ethical practices, and building lasting relationships with our partners.',
-    exportDestinations: 'We have a strong presence in key global markets, regularly exporting to major ports in France, Germany, the UK (Europe), Tokyo, and Osaka (Japan), as well as Dubai and Doha (Middle East). Our logistics network ensures timely and fresh delivery to all destinations.',
+    exportDestinations: 'We have a strong presence in key global markets, regularly exporting to major ports in France, Germany, the UK (Europe), Tokyo, and Osaka (Japan), as well as Dubai and Doha (Middle East). Frozen seafood is shipped by sea, while fresh seafood is transported by air to preserve quality.',
 };

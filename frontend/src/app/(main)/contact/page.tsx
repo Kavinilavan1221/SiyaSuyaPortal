@@ -15,7 +15,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ContactSchema } from '@/lib/definitions';
 import { placeholderImages } from '@/lib/placeholder-data';
 
-const COMPANY_EMAIL = import.meta.env.VITE_COMPANY_EMAIL || 'siyani.2111@gmail.com';
+const COMPANY_EMAIL = import.meta.env.VITE_COMPANY_EMAIL || 'siyasuyainternationalpvt@gmail.com';
 const mapImage = placeholderImages.find(p => p.id === 'contact-map');
 
 export default function ContactPage() {
@@ -72,7 +72,7 @@ export default function ContactPage() {
             }
 
             setState({
-                message: `Thank you! Your message has been sent to ${COMPANY_EMAIL}.`,
+                message: errorData.message || `Thank you! Your message has been received by ${COMPANY_EMAIL}.`,
                 success: true,
             });
         } catch (error: any) {
@@ -117,8 +117,12 @@ export default function ContactPage() {
                   <MapPin className="h-7 w-7" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-xl mb-2">Global Headquarters</h3>
-                  <p className="text-muted-foreground leading-relaxed">123 Seafood Lane<br/>Colombo, Sri Lanka</p>
+                  <h3 className="font-semibold text-xl mb-2">Our Address</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    Siya Suya International Seafood Export<br />
+                    Prison Road, Dalupotha<br />
+                    Negombo, Sri Lanka
+                  </p>
                 </div>
               </div>
 
@@ -128,9 +132,14 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-xl mb-2">Call Us Directly</h3>
-                  <a href="tel:+94112345678" className="text-muted-foreground hover:text-accent transition-colors block text-lg">
-                    +94 11 234 5678
-                  </a>
+                  <div className="flex flex-col gap-2">
+                    <a href="tel:+94772192742" className="text-muted-foreground hover:text-accent transition-colors text-lg">
+                      +94 77 219 2742 <span className="text-sm">(English)</span>
+                    </a>
+                    <a href="tel:+94773650058" className="text-muted-foreground hover:text-accent transition-colors text-lg">
+                      +94 77 365 0058 <span className="text-sm">(Tamil)</span>
+                    </a>
+                  </div>
                 </div>
               </div>
 
