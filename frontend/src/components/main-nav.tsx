@@ -25,11 +25,23 @@ export default function MainNav() {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const name = localStorage.getItem('userName');
+    let name = localStorage.getItem('userName');
     const role = localStorage.getItem('userRole');
+    if (name === 'Super Admin' || name === 'Super' || (role === 'admin' && name && name.toLowerCase().includes('super'))) {
+      name = 'Admin';
+      localStorage.setItem('userName', 'Admin');
+    }
     if (name) setUserName(name);
     if (role) setUserRole(role);
   }, [location.pathname]);
+
+  const getDisplayName = (name: string | null) => {
+    if (!name) return '';
+    if (name === 'Super' || name === 'Super Admin' || (userRole === 'admin' && name.toLowerCase().includes('super'))) {
+      return 'Admin';
+    }
+    return name.split(' ')[0];
+  };
 
   const handleLogout = () => {
     localStorage.removeItem('adminToken');
@@ -68,7 +80,7 @@ export default function MainNav() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="font-semibold text-primary">
-                  <UserCircle className="mr-2 h-5 w-5" /> Hi, {userName.split(' ')[0]}
+                  <UserCircle className="mr-2 h-5 w-5" /> Hi, {getDisplayName(userName)}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
@@ -110,7 +122,7 @@ export default function MainNav() {
             
             {userName ? (
               <div className="flex flex-col w-full space-y-2 pt-2 border-t">
-                <span className="text-sm font-semibold text-primary px-2">Hi, {userName}</span>
+                <span className="text-sm font-semibold text-primary px-2">Hi, {getDisplayName(userName)}</span>
                 {userRole === 'admin' && (
                   <Button variant="ghost" className="w-full justify-start" onClick={() => { setIsMenuOpen(false); navigate('/admin/dashboard'); }}>
                     Admin Dashboard

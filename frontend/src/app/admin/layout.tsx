@@ -18,7 +18,8 @@ import {
   FileText, 
   Mail,
   LogOut,
-  Home
+  Home,
+  UserCircle
 } from 'lucide-react';
 import Logo from '@/components/logo';
 
@@ -50,6 +51,9 @@ export default function AdminLayout() {
     localStorage.removeItem('userRole');
     window.location.href = '/login';
   };
+
+  const rawUserName = localStorage.getItem('userName');
+  const greetingName = (!rawUserName || rawUserName === 'Super' || rawUserName === 'Super Admin' || rawUserName.toLowerCase().includes('super')) ? 'Admin' : rawUserName.split(' ')[0];
 
   return (
     <SidebarProvider>
@@ -101,9 +105,15 @@ export default function AdminLayout() {
           </SidebarHeader>
         </Sidebar>
         <SidebarInset className="bg-secondary/20">
-          <header className="p-4 border-b bg-background/80 backdrop-blur-md flex items-center gap-4 sticky top-0 z-10">
-            <SidebarTrigger />
-            <h1 className="font-semibold text-lg text-primary">Admin Dashboard</h1>
+          <header className="p-4 border-b bg-background/80 backdrop-blur-md flex items-center justify-between sticky top-0 z-10">
+            <div className="flex items-center gap-4">
+              <SidebarTrigger />
+              <h1 className="font-semibold text-lg text-primary">Admin Dashboard</h1>
+            </div>
+            <div className="flex items-center gap-2 text-sm font-semibold text-primary pr-2">
+              <UserCircle className="h-5 w-5" />
+              <span>Hi, {greetingName}</span>
+            </div>
           </header>
           <div className="p-4 md:p-8">
             <Outlet />

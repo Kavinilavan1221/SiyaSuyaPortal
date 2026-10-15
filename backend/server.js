@@ -184,7 +184,7 @@ app.post('/api/auth/login', async (req, res) => {
     // Master Admin Bypass
     if (email === 'admin123@gmail.com' && password === 'admin123') {
       const token = jwt.sign({ userId: 'master-admin', role: 'admin' }, JWT_SECRET, { expiresIn: '1d' });
-      return res.json({ token, user: { id: 'master-admin', name: 'Super Admin', email, role: 'admin' } });
+      return res.json({ token, user: { id: 'master-admin', name: 'Admin', email, role: 'admin' } });
     }
     
     const user = await User.findOne({ email });
@@ -198,9 +198,10 @@ app.post('/api/auth/login', async (req, res) => {
     }
     
     const userRole = (user.email === 'admin123@gmail.com') ? 'admin' : 'customer';
+    const userName = (userRole === 'admin' && (user.name === 'Super Admin' || user.name === 'Super')) ? 'Admin' : user.name;
     
     const token = jwt.sign({ userId: user._id, role: userRole }, JWT_SECRET, { expiresIn: '1d' });
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email, role: userRole } });
+    res.json({ token, user: { id: user._id, name: userName, email: user.email, role: userRole } });
   } catch (error) {
     console.error('Login Error:', error);
     res.status(500).json({ error: 'Server error during login' });
