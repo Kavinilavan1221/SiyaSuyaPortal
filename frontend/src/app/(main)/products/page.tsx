@@ -44,7 +44,7 @@ export default function ProductsPage() {
                   "rounded-full transition-all duration-300 font-semibold px-6",
                   activeCategory === category 
                     ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-md shadow-primary/20 scale-105' 
-                    : 'border-primary/20 hover:border-primary/50 text-foreground hover:bg-primary/5'
+                    : 'border-primary/20 hover:border-primary/50 text-foreground hover:text-foreground hover:bg-primary/5'
                 )}
                 onClick={() => setActiveCategory(category)}
               >
